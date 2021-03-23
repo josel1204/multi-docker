@@ -1,0 +1,22 @@
+language: generic 
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t josel1204/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true josel1204/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t josel1204/multi-client ./client
+  - docker build -t josel1204/multi-nginx ./nginx
+  - docker build -t josel1204/multi-server ./server
+  - docker build -t josel1204/multi-worker ./worker
+  #login to dockerhub
+  - echo "$DOCKER_PASSWORD" | docker login - u "$DOCKER_ID" --password-stdin
+  # take those images and push it into docker-hub
+  - docker push josel1204/multi-client
+  - docker push josel1204/multi-nginx
+  - docker push josel1204/multi-server
+  - docker push josel1204/multi-worker
