@@ -1,0 +1,35 @@
+{
+    "AWSEBDockerrunVerison": 2,
+    "containerDefinitions": [
+        {
+            "name":"client",
+            "image":"josel1204/multi-client",
+            "hostname":"client",
+            "essential":false
+        },
+        {
+            "name":"server",
+            "image":"josel1204/multi-server",
+            "hostname":"api",
+            "essential":false
+        },
+        {
+            "name":"worker",
+            "image":"josel1204/multi-worker",
+            "hostname":"worker",
+            "essential":false
+        },
+        {
+            "name":"nginx",
+            "image":"josel1204/multi-nginx",
+            "essential":true, 
+            "portMappings":[
+                {
+                    "hostPort":80,
+                    "containerPort":80
+                }
+            ],
+            "links": ["client", "server"]
+        }
+    ]
+}

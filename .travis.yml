@@ -14,7 +14,7 @@ after_success:
   - docker build -t josel1204/multi-server ./server
   - docker build -t josel1204/multi-worker ./worker
   #login to dockerhub
-  - echo "$DOCKER_PASSWORD" | docker login - u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # take those images and push it into docker-hub
   - docker push josel1204/multi-client
   - docker push josel1204/multi-nginx
